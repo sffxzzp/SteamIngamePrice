@@ -60,7 +60,6 @@
 			var schema = await fetch('/api/schema').then(res => res.json());
 			var price = await fetch('/api/price').then(res => res.json());
 			var rate = await fetch('https://api.augmentedsteam.com/v01/rates/?to=CNY').then(res => res.json());
-			console.log(rate);
 			var items = {};
 			schema.result.items.forEach(item => {
 				items[item.defindex] = item;
@@ -100,21 +99,14 @@
 			var app = Vue.createApp({
 				data() {
 					return {
-						data: data
+						data: data,
+						modal: {},
+						currencyStr: currencyStr
 					}
 				},
 				methods: {
 					updateModal(item) {
-						var modal = Vue.createApp({
-							data() {
-								return {
-									item: item,
-									currencyStr: currencyStr
-								}
-							}
-						});
-						modal.mount('#modal');
-						delete modal;
+						this.modal = item;
 					}
 				}
 			});
@@ -172,40 +164,40 @@
 				</tbody>
 			</table>
 		</div>
-	</div>
-	<input type="checkbox" id="modal-detail" class="modal-toggle" />
-	<label id="modal" for="modal-detail" class="modal cursor-pointer">
-		<label class="modal-box relative" for="">
-			<h3 class="font-bold text-lg">{{ item.name }}</h3>
-			<img :src="`${item.image}`" style="width: 68px;" />
-			<p class="py-4">ClassID: {{ item.classid }}<br>
-				DefIndex: {{ item.defindex }}<br>
-				日期: {{ item.date }}<br>
-				品质: {{ item.quality }}</p>
-			<table class="table table-compact w-full">
-				<thead>
-					<tr>
-						<th>货币</th>
-						<th>价格</th>
-						<th>转换后</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="rate in item.prices_list">
-						<td>
-							{{ currencyStr[rate.currency] }}
-						</td>
-						<td>
-							{{ (rate.original / 100).toFixed(2) }}
-						</td>
-						<td>
-							￥ {{ (rate.transformed / 100).toFixed(2) }}
-						</td>
-					</tr>
-				</tbody>
-			</table>
+		<input type="checkbox" id="modal-detail" class="modal-toggle" />
+		<label id="modal" for="modal-detail" class="modal cursor-pointer">
+			<label class="modal-box relative" for="">
+				<h3 class="font-bold text-lg">{{ modal.name }}</h3>
+				<img :src="`${modal.image}`" style="width: 68px;" />
+				<p class="py-4">ClassID: {{ modal.classid }}<br>
+					DefIndex: {{ modal.defindex }}<br>
+					日期: {{ modal.date }}<br>
+					品质: {{ modal.quality }}</p>
+				<table class="table table-compact w-full">
+					<thead>
+						<tr>
+							<th>货币</th>
+							<th>价格</th>
+							<th>转换后</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="rate in modal.prices_list">
+							<td>
+								{{ currencyStr[rate.currency] }}
+							</td>
+							<td>
+								{{ (rate.original / 100).toFixed(2) }}
+							</td>
+							<td>
+								￥ {{ (rate.transformed / 100).toFixed(2) }}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</label>
 		</label>
-	</label>
+	</div>
 	<div id="load" class="hero min-h-screen bg-base-200" style="position: absolute; top: 0; left: 0; z-index: 9999;">
 		<div class="hero-content text-center">
 			<div class="max-w-md">
