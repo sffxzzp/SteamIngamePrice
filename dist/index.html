@@ -13,11 +13,54 @@
 
 <body>
 	<script>
+		var currencyStr = {
+			'NZD': '新西兰元',
+			'PLN': '波兰兹罗提',
+			'SGD': '新加坡元',
+			'INR': '印度卢比',
+			'USD': '美元',
+			'UAH': '乌克兰格里夫纳',
+			'CRC': '哥斯大黎加货币',
+			'EUR': '欧元',
+			'KWD': '科威特第纳尔',
+			'RUB': '卢布',
+			'MYR': '马来西亚林吉特',
+			'QAR': '卡塔尔里亚尔',
+			'BRL': '巴西雷亚尔',
+			'CNY': '人民币',
+			'CHF': '瑞士法郎',
+			'KRW': '韩元',
+			'COP': '哥伦比亚比索',
+			'CAD': '加拿大元',
+			'UYU': '乌拉圭比索',
+			'PEN': '秘鲁索尔',
+			'SAR': '沙特里亚尔',
+			'IDR': '印尼卢比',
+			'NOK': '挪威克朗',
+			'CLP': '智利比索',
+			'ZAR': '南非兰特',
+			'THB': '泰铢',
+			'GBP': '英镑',
+			'HKD': '港元',
+			'AUD': '澳元',
+			'ARS': '阿根廷比索',
+			'AED': '阿联酋迪拉姆',
+			'ILS': '以色列新锡克尔',
+			'PHP': '菲律宾比索',
+			'TWD': '新台币',
+			'TRY': '土耳其里拉',
+			'KZT': '萨克斯坦坚戈',
+			'MXN': '墨西哥元',
+			'VND': '越南盾',
+			'JPY': '日元'
+		}
 		var init = async function () {
 			// var schema = await fetch('/api/?mod=schema').then(res => res.json());
 			// var price = await fetch('/api/?mod=price').then(res => res.json());
 			var schema = await fetch('/api/schema').then(res => res.json());
 			var price = await fetch('/api/price').then(res => res.json());
+			var rate = await fetch('https://api.augmentedsteam.com/v01/rates/?to=CNY').then(res => res.json());
+			console.log(rate);
 			var items = {};
 			schema.result.items.forEach(item => {
 				items[item.defindex] = item;
@@ -32,11 +75,20 @@
 				tdata['defindex'] = asset.name;
 				tdata['date'] = asset.date;
 				tdata['prices'] = {};
+				tdata['prices_list'] = [];
 				for (let currency in asset.prices) {
 					if (asset.prices[currency] != 0) {
 						tdata['prices'][currency] = asset.prices[currency];
+						tdata['prices_list'].push({
+							'currency': currency,
+							'original': asset.prices[currency],
+							'transformed': asset.prices[currency] * rate.data[currency].CNY
+						});
 					}
 				}
+				tdata['prices_list'].sort(function (a, b) {
+					return a.transformed - b.transformed
+				});
 				tdata['classid'] = asset.classid;
 				tdata['image'] = items[asset.name].image_url.replace('"steamcdn-a.akamaihd.net',
 					'media.st.dl.pinyuncloud.com');
@@ -56,7 +108,8 @@
 						var modal = Vue.createApp({
 							data() {
 								return {
-									item: item
+									item: item,
+									currencyStr: currencyStr
 								}
 							}
 						});
@@ -132,17 +185,21 @@
 			<table class="table table-compact w-full">
 				<thead>
 					<tr>
-						<th>区域</th>
+						<th>货币</th>
 						<th>价格</th>
+						<th>转换后</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(price, currency) in item.prices">
+					<tr v-for="rate in item.prices_list">
 						<td>
-							{{ currency }}
+							{{ currencyStr[rate.currency] }}
 						</td>
 						<td>
-							{{ (price / 100).toFixed(2) }}
+							{{ (rate.original / 100).toFixed(2) }}
+						</td>
+						<td>
+							￥ {{ (rate.transformed / 100).toFixed(2) }}
 						</td>
 					</tr>
 				</tbody>
