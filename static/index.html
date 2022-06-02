@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>CSGO Item Price</title>
+	<script src="https://cdn.staticfile.org/vue/3.2.33/vue.global.prod.js"></script>
+	<link href="https://unpkg.com/daisyui@2.15.2/dist/full.css" rel="stylesheet" type="text/css" />
+	<link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<script>
+		var init = async function () {
+			// var schema = await fetch('/api/?mod=schema').then(res => res.json());
+			// var price = await fetch('/api/?mod=price').then(res => res.json());
+			var schema = await fetch('/api/schema').then(res => res.json());
+			var price = await fetch('/api/price').then(res => res.json());
+			var items = {};
+			schema.result.items.forEach(item => {
+				items[item.defindex] = item;
+			});
+			var qualities = {};
+			for (let quality in schema.result.qualities) {
+				qualities[schema.result.qualities[quality]] = schema.result.qualityNames[quality];
+			}
+			var data = [];
+			price.result.assets.forEach(asset => {
+				var tdata = {};
+				tdata['defindex'] = asset.name;
+				tdata['date'] = asset.date;
+				tdata['prices'] = asset.prices;
+				tdata['classid'] = asset.classid;
+				tdata['image'] = items[asset.name].image_url.replace('"steamcdn-a.akamaihd.net', 'media.st.dl.pinyuncloud.com');
+				tdata['name'] = items[asset.name].item_name;
+				tdata['quality'] = qualities[items[asset.name].item_quality];
+				data.push(tdata);
+			});
+			delete schema, price, items, qualities;
+			var app = Vue.createApp({
+				data () {
+					return {
+						data: data
+					}
+				}
+			});
+			app.mount('#main_area');
+		};
+		init();
+	</script>
+	<div class="sticky navbar bg-base-100 bg-primary w-10/12 top-0 z-30 bg-opacity-70 backdrop-blur" style="margin: 0 auto;">
+		<a class="btn btn-ghost normal-case text-xl">CSGO Item Price</a>
+	</div>
+	<div id="main_area" class="flex">
+		<div class="overflow-x-auto w-10/12" style="margin: 0 auto;">
+			<table class="table table-compact w-full">
+				<thead>
+					<tr>
+						<th>名称</th>
+						<th>价格</th>
+						<th>ClassID</th>
+						<th>日期</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="item in data">
+						<td>
+							<div class="flex items-center space-x-3">
+								<div class="avatar">
+									<div class="mask mask-squircle w-12 h-12">
+										<img :src="`${item.image}`" alt="" />
+									</div>
+								</div>
+								<div>
+									<div class="font-bold">{{ item.name }}</div>
+									<div class="text-sm opacity-50">{{ item.quality }}</div>
+								</div>
+							</div>
+						</td>
+						<td>
+							￥ {{ (item.prices.CNY / 100).toFixed(2) }}
+						</td>
+						<td>
+							{{ item.classid }}
+							<br>
+							<span class="badge badge-ghost badge-sm">defindex: {{ item.defindex }}</span>
+						</td>
+						<td>{{ item.date }}</td>
+						<th>
+							<a class="btn btn-primary btn-xs">查看详情</a>
+						</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+
+</html>
