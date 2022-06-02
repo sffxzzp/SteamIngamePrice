@@ -23,7 +23,6 @@ func httpGet(url string) ([]byte, bool) {
 func Handler(w http.ResponseWriter, r *http.Request) {
 	appid := "730"
 	apikey := os.Getenv("apikey")
-	// apikey := "<apikey>"
 	mod := r.URL.Query().Get("mod")
 	var data []byte
 	var err bool
@@ -53,8 +52,3 @@ func main() {
 	http.HandleFunc("/api/", Handler)
 	http.ListenAndServe("127.0.0.1:8080", nil)
 }
-
-// http://127.0.0.1:8080/
-
-// https://api.steampowered.com/IEconItems_730/GetSchema/v2/?key=<apikey>
-// https://api.steampowered.com/ISteamEconomy/GetAssetPrices/v1/?appid=730&key=<apikey>
