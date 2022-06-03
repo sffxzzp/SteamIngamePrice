@@ -92,7 +92,7 @@
 				tdata['description'] = items[asset.name].item_description;
 				data.push(tdata);
 			});
-			delete schema, price, items, qualities;
+			delete schema, price, items;
 			var app = Vue.createApp({
 				data() {
 					return {
