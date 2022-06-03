@@ -64,10 +64,6 @@
 			schema.result.items.forEach(item => {
 				items[item.defindex] = item;
 			});
-			var qualities = {};
-			for (let quality in schema.result.qualities) {
-				qualities[schema.result.qualities[quality]] = schema.result.qualityNames[quality];
-			}
 			var data = [];
 			price.result.assets.forEach(asset => {
 				var tdata = {};
@@ -92,7 +88,8 @@
 				tdata['image'] = items[asset.name].image_url.replace('"steamcdn-a.akamaihd.net',
 					'media.st.dl.pinyuncloud.com');
 				tdata['name'] = items[asset.name].item_name;
-				tdata['quality'] = qualities[items[asset.name].item_quality];
+				tdata['type'] = items[asset.name].item_type_name;
+				tdata['description'] = items[asset.name].item_description;
 				data.push(tdata);
 			});
 			delete schema, price, items, qualities;
@@ -143,7 +140,7 @@
 								</div>
 								<div>
 									<div class="font-bold">{{ item.name }}</div>
-									<div class="text-sm opacity-50">{{ item.quality }}</div>
+									<div class="text-sm opacity-50">{{ item.type }}</div>
 								</div>
 							</div>
 						</td>
@@ -169,10 +166,13 @@
 			<label class="modal-box relative" for="">
 				<h3 class="font-bold text-lg">{{ modal.name }}</h3>
 				<img :src="`${modal.image}`" style="width: 68px;" />
-				<p class="py-4">ClassID: {{ modal.classid }}<br>
+				<p class="py-4">
+					ClassID: {{ modal.classid }}<br>
 					DefIndex: {{ modal.defindex }}<br>
 					日期: {{ modal.date }}<br>
-					品质: {{ modal.quality }}</p>
+					类型: {{ modal.type }}<br>
+					描述: {{ modal.description }}<br>
+				</p>
 				<table class="table table-compact w-full">
 					<thead>
 						<tr>
