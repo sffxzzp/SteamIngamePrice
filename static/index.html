@@ -56,7 +56,7 @@
 		};
 		if (localStorage.getItem('night') == 'dark') { document.querySelector('html').setAttribute('data-theme', 'dark'); }
 		var toggleNight = function () {
-			var night = localStorage.getItem('night') == 'light' ? 'dark' : 'light';
+			var night = localStorage.getItem('night') == 'dark' ? 'light' : 'dark';
 			document.querySelector('html').setAttribute('data-theme', night);
 			localStorage.setItem('night', night);
 		}
