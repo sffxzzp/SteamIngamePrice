@@ -68,6 +68,12 @@
 				var schema = await fetch('/api/?mod=schema').then(res => res.json());
 				var price = await fetch('/api/?mod=price').then(res => res.json());
 			}
+			if (schema == undefined) {
+				var schema = await fetch('https://raw.fastgit.org/sffxzzp/SteamIngamePrice/master/schema.json').then(res => res.json());
+			}
+			if (schema == undefined || price == undefined) {
+				document.querySelector('#load-text').innerHTML = '加载失败，请刷新重试';
+			}
 			var rate = await fetch('https://api.augmentedsteam.com/v01/rates/?to=CNY').then(res => res.json());
 			var items = {};
 			schema.result.items.forEach(item => {
@@ -94,7 +100,7 @@
 				tdata['prices_list'].sort(function (a, b) { return a.transformed - b.transformed });
 				tdata['classid'] = asset.classid;
 				tdata['image'] = items[asset.name].image_url.replace('"steamcdn-a.akamaihd.net',
-					'media.st.dl.pinyuncloud.com');
+					'media.st.dl.eccdnx.com');
 				tdata['name'] = items[asset.name].item_name;
 				tdata['type'] = items[asset.name].item_type_name;
 				tdata['description'] = items[asset.name].item_description;
@@ -278,7 +284,7 @@
 	<div id="load" class="hero min-h-screen bg-base-200" style="position: absolute; top: 0; left: 0; z-index: 9999;">
 		<div class="hero-content text-center">
 			<div class="max-w-md">
-				<h1 class="text-5xl font-bold">加载中……</h1>
+				<h1 id="load-text" class="text-5xl font-bold">加载中……</h1>
 			</div>
 		</div>
 	</div>
