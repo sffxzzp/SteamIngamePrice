@@ -99,7 +99,7 @@
 				}
 				tdata['prices_list'].sort(function (a, b) { return a.transformed - b.transformed });
 				tdata['classid'] = asset.classid;
-				tdata['image'] = items[asset.name].image_url.replace('"steamcdn-a.akamaihd.net',
+				tdata['image'] = items[asset.name].image_url.replace('steamcdn-a.akamaihd.net',
 					'media.st.dl.eccdnx.com');
 				tdata['name'] = items[asset.name].item_name;
 				tdata['type'] = items[asset.name].item_type_name;
