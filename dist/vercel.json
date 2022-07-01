@@ -1,6 +1,7 @@
 {
   "rewrites": [
-    { "source": "/api/:mod", "destination": "/api/" }
+    { "source": "/api/:mod", "destination": "/api/" },
+    { "source": "/api/:mod/:lang", "destination": "/api/" }
   ],
   "headers": [
     { "source": "/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=14400, s-maxage=14400, stale-while-revalidate=14400" }] }

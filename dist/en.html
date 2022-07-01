@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>CSGO 物品价格</title>
+	<title>CSGO Item Price</title>
 	<script src="https://cdn.staticfile.org/vue/3.2.33/vue.global.prod.js"></script>
 	<link href="https://unpkg.com/daisyui@2.15.2/dist/full.css" rel="stylesheet" type="text/css" />
 	<link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" type="text/css" />
@@ -14,45 +14,45 @@
 <body>
 	<script>
 		var currencyStr = {
-			'NZD': '新西兰元',
-			'PLN': '波兰兹罗提',
-			'SGD': '新加坡元',
-			'INR': '印度卢比',
-			'USD': '美元',
-			'UAH': '乌克兰格里夫纳',
-			'CRC': '哥斯达黎加科朗',
-			'EUR': '欧元',
-			'KWD': '科威特第纳尔',
-			'RUB': '卢布',
-			'MYR': '马来西亚林吉特',
-			'QAR': '卡塔尔里亚尔',
-			'BRL': '巴西雷亚尔',
-			'CNY': '人民币',
-			'CHF': '瑞士法郎',
-			'KRW': '韩元',
-			'COP': '哥伦比亚比索',
-			'CAD': '加拿大元',
-			'UYU': '乌拉圭比索',
-			'PEN': '秘鲁索尔',
-			'SAR': '沙特里亚尔',
-			'IDR': '印尼卢比',
-			'NOK': '挪威克朗',
-			'CLP': '智利比索',
-			'ZAR': '南非兰特',
-			'THB': '泰铢',
-			'GBP': '英镑',
-			'HKD': '港元',
-			'AUD': '澳元',
-			'ARS': '阿根廷比索',
-			'AED': '阿联酋迪拉姆',
-			'ILS': '以色列新锡克尔',
-			'PHP': '菲律宾比索',
-			'TWD': '新台币',
-			'TRY': '土耳其里拉',
-			'KZT': '哈萨克斯坦坚戈',
-			'MXN': '墨西哥比索',
-			'VND': '越南东',
-			'JPY': '日元'
+			'NZD': 'New Zealand Dollar',
+			'PLN': 'Polish Zloty',
+			'SGD': 'Singapore Dollar',
+			'INR': 'Indian Rupee',
+			'USD': 'US Dollar',
+			'UAH': 'Ukrainian Hryvnia',
+			'CRC': 'Costa Rican Colon',
+			'EUR': 'Euro',
+			'KWD': 'Kuwaiti Dinar',
+			'RUB': 'Russian Ruble',
+			'MYR': 'Malaysian Ringgit',
+			'QAR': 'Qatari Riyal',
+			'BRL': 'Brazilian Real',
+			'CNY': 'Chinese Yuan',
+			'CHF': 'Swiss Franc',
+			'KRW': 'South Korean Won',
+			'COP': 'Colombian Peso',
+			'CAD': 'Canadian Dollar',
+			'UYU': 'Uruguayan Peso',
+			'PEN': 'Peruvian Sol',
+			'SAR': 'Saudi Arabian Riyal',
+			'IDR': 'Indonesian Rupiah',
+			'NOK': 'Norwegian Krone',
+			'CLP': 'Chilean Peso',
+			'ZAR': 'South African Rand',
+			'THB': 'Thai Baht',
+			'GBP': 'Great British Pound',
+			'HKD': 'Hong Kong Dollar',
+			'AUD': 'Australian Dollar',
+			'ARS': 'Argentine Peso',
+			'AED': 'UAE Dirham',
+			'ILS': 'Israeli Shekel',
+			'PHP': 'Philippine Peso',
+			'TWD': 'Taiwan New Dollar',
+			'TRY': 'Turkish Lira',
+			'KZT': 'Kazakhstani Tenge',
+			'MXN': 'Mexican Peso',
+			'VND': 'Vietnamese Dong',
+			'JPY': 'Japanese Yen'
 		};
 		if (localStorage.getItem('night') == 'dark') { document.querySelector('html').setAttribute('data-theme', 'dark'); }
 		var toggleNight = function () {
@@ -62,19 +62,19 @@
 		}
 		var init = async function () {
 			if (location.href.indexOf('127.0.0.1') < 0 && location.href.indexOf('localhost') < 0) {
-				var schema = await fetch('/api/schema').then(res => res.json()).catch(console.log);
-				var price = await fetch('/api/price').then(res => res.json()).catch(console.log);
+				var schema = await fetch('/api/schema/en-US').then(res => res.json()).catch(console.log);
+				var price = await fetch('/api/price/en-US').then(res => res.json()).catch(console.log);
 			} else {
-				var schema = await fetch('/api/?mod=schema').then(res => res.json()).catch(console.log);
-				var price = await fetch('/api/?mod=price').then(res => res.json()).catch(console.log);
+				var schema = await fetch('/api/?mod=schema&lang=en-US').then(res => res.json()).catch(console.log);
+				var price = await fetch('/api/?mod=price&lang=en-US').then(res => res.json()).catch(console.log);
 			}
 			if (schema == undefined) {
 				var schema = await fetch('https://raw.fastgit.org/sffxzzp/SteamIngamePrice/master/schema.json').then(res => res.json()).catch(console.log);
 			}
 			if (schema == undefined || price == undefined) {
-				document.querySelector('#load-text').innerHTML = '加载失败，请刷新重试';
+				document.querySelector('#load-text').innerHTML = 'Data load failed, try to refresh this page.';
 			}
-			var rate = await fetch('https://api.augmentedsteam.com/v01/rates/?to=CNY').then(res => res.json());
+			var rate = await fetch('https://api.augmentedsteam.com/v01/rates/?to=USD').then(res => res.json());
 			var items = {};
 			schema.result.items.forEach(item => {
 				items[item.defindex] = item;
@@ -93,14 +93,13 @@
 						tdata['prices_list'].push({
 							'currency': currency,
 							'original': asset.prices[currency],
-							'transformed': asset.prices[currency] * rate.data[currency].CNY
+							'transformed': asset.prices[currency] * rate.data[currency].USD
 						});
 					}
 				}
 				tdata['prices_list'].sort(function (a, b) { return a.transformed - b.transformed });
 				tdata['classid'] = asset.classid;
-				tdata['image'] = items[asset.name].image_url.replace('steamcdn-a.akamaihd.net',
-					'media.st.dl.eccdnx.com');
+				tdata['image'] = items[asset.name].image_url;
 				tdata['name'] = items[asset.name].item_name;
 				tdata['type'] = items[asset.name].item_type_name;
 				tdata['description'] = items[asset.name].item_description;
@@ -140,9 +139,9 @@
 					},
 					sortPrice() {
 						if (this.priceSort) {
-							this.data.sort(function (a, b) { return b.prices.CNY - a.prices.CNY; });
+							this.data.sort(function (a, b) { return b.prices.USD - a.prices.USD; });
 						} else {
-							this.data.sort(function (a, b) { return a.prices.CNY - b.prices.CNY; });
+							this.data.sort(function (a, b) { return a.prices.USD - b.prices.USD; });
 						}
 						this.resetSort('price', !this.priceSort);
 					},
@@ -173,7 +172,7 @@
 	<div class="sticky navbar bg-base-100 bg-primary w-full top-0 z-30 bg-opacity-70 backdrop-blur"
 		style="margin: 0 auto;">
 		<div class="flex-1">
-			<a class="btn btn-ghost normal-case text-xl">CSGO 物品价格</a>
+			<a class="btn btn-ghost normal-case text-xl">CSGO Item Price</a>
 		</div>
 		<div class="flex-none">
 			<div class="dropdown dropdown-end">
@@ -189,19 +188,19 @@
 				<div class="dropdown-content bg-base-100 text-base-content rounded-t-box rounded-b-box top-px mt-16 w-56 overflow-y-auto shadow-2xl">
 					<ul class="menu menu-compact gap-1 p-3" tabindex="0">
 						<li>
-							<a href="/en.html" class="flex">
+							<a href="/en.html" onclick="javascript:return false;" class="flex active">
 								<span class="flex flex-1 justify-between">English</span>
 							</a>
 						</li>
 						<li>
-							<a href="/index.html" onclick="javascript:return false;" class="flex active">
+							<a href="/index.html" class="flex">
 								<span class="flex flex-1 justify-between">简体中文</span>
 							</a>
 						</li>
 					</ul>
 				</div>
 			</div>
-			<span class="tooltip tooltip-bottom before:text-xs before:content-[attr(data-tip)]" data-tip="亮/暗">
+			<span class="tooltip tooltip-bottom before:text-xs before:content-[attr(data-tip)]" data-tip="Light/Night">
 				<div class="flex-none items-center">
 					<a aria-label="Night" onclick="toggleNight()" rel="noopener" class="btn btn-ghost drawer-button btn-square normal-case">
 						<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block h-5 w-5 fill-current md:h-6 md:w-6">
@@ -235,11 +234,11 @@
 			<table class="table table-compact w-full">
 				<thead>
 					<tr>
-						<th @click="sortIndex" style="position: initial;">名称</th>
-						<th @click="sortPrice">价格</th>
+						<th @click="sortIndex" style="position: initial;">Name</th>
+						<th @click="sortPrice">Price</th>
 						<th @click="sortDef">DefIndex</th>
-						<th @click="sortTime">日期</th>
-						<th>操作</th>
+						<th @click="sortTime">Date</th>
+						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -257,11 +256,11 @@
 								</div>
 							</div>
 						</td>
-						<td>￥ {{ (item.prices.CNY / 100).toFixed(2) }}</td>
+						<td>$ {{ (item.prices.USD / 100).toFixed(2) }}</td>
 						<td>{{ item.defindex }}</td>
 						<td>{{ item.date }}</td>
 						<th>
-							<label for="modal-detail" @click="updateModal(item)" class="btn btn-primary btn-xs">查看详情</label>
+							<label for="modal-detail" @click="updateModal(item)" class="btn btn-primary btn-xs">Details</label>
 						</th>
 					</tr>
 				</tbody>
@@ -276,16 +275,16 @@
 				<p class="py-4">
 					ClassID: {{ modal.classid }}<br>
 					DefIndex: {{ modal.defindex }}<br>
-					日期: {{ modal.date }}<br>
-					类型: {{ modal.type }}<br>
-					描述: {{ modal.description }}<br>
+					Date: {{ modal.date }}<br>
+					Type: {{ modal.type }}<br>
+					Description: {{ modal.description }}<br>
 				</p>
 				<table class="table table-compact w-full">
 					<thead>
 						<tr>
-							<th>货币</th>
-							<th>价格</th>
-							<th>转换后</th>
+							<th>Currency</th>
+							<th>Price</th>
+							<th>Exchanged Price</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -297,7 +296,7 @@
 								{{ (rate.original / 100).toFixed(2) }}
 							</td>
 							<td>
-								￥ {{ (rate.transformed / 100).toFixed(2) }}
+								$ {{ (rate.transformed / 100).toFixed(2) }}
 							</td>
 						</tr>
 					</tbody>
@@ -308,7 +307,7 @@
 	<div id="load" class="hero min-h-screen bg-base-200" style="position: absolute; top: 0; left: 0; z-index: 9999;">
 		<div class="hero-content text-center">
 			<div class="max-w-md">
-				<h1 id="load-text" class="text-5xl font-bold">加载中……</h1>
+				<h1 id="load-text" class="text-5xl font-bold">Loading...</h1>
 			</div>
 		</div>
 	</div>
