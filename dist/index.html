@@ -62,11 +62,11 @@
 		}
 		var init = async function () {
 			if (location.href.indexOf('127.0.0.1') < 0 && location.href.indexOf('localhost') < 0) {
-				var schema = await fetch('/api/schema').then(res => res.json()).catch(console.log);
-				var price = await fetch('/api/price').then(res => res.json()).catch(console.log);
+				var schema = await fetch('/api/schema/zh-CN').then(res => res.json()).catch(console.log);
+				var price = await fetch('/api/price/zh-CN').then(res => res.json()).catch(console.log);
 			} else {
-				var schema = await fetch('/api/?mod=schema').then(res => res.json()).catch(console.log);
-				var price = await fetch('/api/?mod=price').then(res => res.json()).catch(console.log);
+				var schema = await fetch('/api/?mod=schema&lang=zh-CN').then(res => res.json()).catch(console.log);
+				var price = await fetch('/api/?mod=price&lang=zh-CN').then(res => res.json()).catch(console.log);
 			}
 			if (schema == undefined) {
 				var schema = await fetch('https://raw.fastgit.org/sffxzzp/SteamIngamePrice/master/schema.json').then(res => res.json()).catch(console.log);

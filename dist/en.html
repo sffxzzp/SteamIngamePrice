@@ -69,7 +69,7 @@
 				var price = await fetch('/api/?mod=price&lang=en-US').then(res => res.json()).catch(console.log);
 			}
 			if (schema == undefined) {
-				var schema = await fetch('https://raw.fastgit.org/sffxzzp/SteamIngamePrice/master/schema.json').then(res => res.json()).catch(console.log);
+				var schema = await fetch('https://raw.githubusercontent.com/sffxzzp/SteamIngamePrice/master/schema.json').then(res => res.json()).catch(console.log);
 			}
 			if (schema == undefined || price == undefined) {
 				document.querySelector('#load-text').innerHTML = 'Data load failed, try to refresh this page.';
