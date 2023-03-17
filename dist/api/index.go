@@ -1,5 +1,7 @@
 package handler
 
+package main
+
 import (
 	"io"
 	"net/http"
@@ -30,9 +32,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 	var data []byte
 	var err bool
-	if mod == "schema" {
-		data, err = httpGet("https://api.steampowered.com/IEconItems_" + appid + "/GetSchema/v2/?language=" + lang + "&key=" + apikey)
-	} else if mod == "price" {
+	if mod == "price" {
 		data, err = httpGet("https://api.steampowered.com/ISteamEconomy/GetAssetPrices/v1/?language=" + lang + "&appid=" + appid + "&key=" + apikey)
 	} else {
 		w.WriteHeader(400)

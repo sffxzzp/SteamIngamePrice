@@ -62,15 +62,11 @@
 		}
 		var init = async function () {
 			if (location.href.indexOf('127.0.0.1') < 0 && location.href.indexOf('localhost') < 0) {
-				var schema = await fetch('/api/schema/en-US').then(res => res.json()).catch(console.log);
 				var price = await fetch('/api/price/en-US').then(res => res.json()).catch(console.log);
 			} else {
-				var schema = await fetch('/api/?mod=schema&lang=en-US').then(res => res.json()).catch(console.log);
 				var price = await fetch('/api/?mod=price&lang=en-US').then(res => res.json()).catch(console.log);
 			}
-			if (schema == undefined) {
-				var schema = await fetch('/schema_en-US.json').then(res => res.json()).catch(console.log);
-			}
+			var schema = await fetch('/schema_en-US.json').then(res => res.json()).catch(console.log);
 			if (schema == undefined || price == undefined) {
 				document.querySelector('#load-text').innerHTML = 'Data load failed, try to refresh this page.';
 			}
@@ -99,10 +95,17 @@
 				}
 				tdata['prices_list'].sort(function (a, b) { return a.transformed - b.transformed });
 				tdata['classid'] = asset.classid;
-				tdata['image'] = items[asset.name].image_url;
-				tdata['name'] = items[asset.name].item_name;
-				tdata['type'] = items[asset.name].item_type_name;
-				tdata['description'] = items[asset.name].item_description;
+				if (items[asset.name] == undefined) {
+					tdata['image'] = 'https://media.st.dl.eccdnx.com/apps/730/icons/econ/coupon/offer.2833a681e6fed26656302dd5fee013fcaa85d722.png';
+					tdata['name'] = asset.name;
+					tdata['type'] = 'unknown';
+					tdata['description'] = 'unknown';
+				} else {
+					tdata['image'] = items[asset.name].image_url;
+					tdata['name'] = items[asset.name].item_name;
+					tdata['type'] = items[asset.name].item_type_name;
+					tdata['description'] = items[asset.name].item_description;
+				}
 				data.push(tdata);
 			});
 			delete schema, price, items;
