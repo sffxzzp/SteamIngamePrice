@@ -6650,6 +6650,14 @@
         "item_name": "StatTrak™ Music Kit | Denzel Curry, ULTIMATE",
         "item_description": "You have been selected to receive a limited time offer to purchase this item.",
         "image_url": "https://community.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXO9B9WLbU5oA9OA0jVSf6o28zGQU9tGlQG-LnzeFc40fadID8WvN_gx4PblvPwMe6AxG1X7pB12OqYot2miVexqBJyIzekO47Pzk8/250fx250f"
+      },
+      {
+        "name": "coupon - crate_anubis_storepromo",
+        "defindex": 20197,
+        "item_type_name": "Container",
+        "item_name": "Anubis Collection Package",
+        "item_description": "You have been selected to receive a limited time offer to purchase this item.",
+        "image_url": "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/coupon/offer.2833a681e6fed26656302dd5fee013fcaa85d722.png"
       }
     ]
   }
