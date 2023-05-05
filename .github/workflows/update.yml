@@ -1,0 +1,45 @@
+name: Update
+
+on:
+  schedule:
+    - cron: '0 17 */7 * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.10
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests vdf
+    - name: Processing data
+      env:
+        APIKEY: ${{ secrets.APIKEY }}
+      run: |
+        wget https://github.com/SteamDatabase/GameTracking-CSGO/raw/master/csgo/scripts/items/items_game.txt
+        wget https://github.com/SteamDatabase/GameTracking-CSGO/raw/master/csgo/resource/csgo_schinese.txt
+        wget https://github.com/SteamDatabase/GameTracking-CSGO/raw/master/csgo/resource/csgo_english.txt
+        python schema.py $APIKEY
+        cp ./schema_zh-CN.json ./static/
+        cp ./schema_en-US.json ./static/
+        cp ./schema_zh-CN.json ./dist/
+        cp ./schema_en-US.json ./dist/
+        rm ./schema_zh-CN.json
+        rm ./schema_en-US.json
+        rm items_game.txt
+        rm csgo_schinese.txt
+        rm csgo_english.txt
+        echo "CMsg=Updated: $(date +'%Y-%m-%d %H:%M:%S %z')" >> $GITHUB_ENV
+    - name: Push
+      uses: Smart-Transportation/push@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: main
+        message: ${{ env.CMsg }}

@@ -1,9 +1,7 @@
 # -*- coding: UTF-8 -*-
-import sys, os, requests, json
-sys.path.append(os.getcwd())
-import vdf
+import sys, os, requests, json, vdf
 
-apikey = 'API Key Here.'
+apikey = sys.argv[1]
 
 defindexes = []
 res = requests.get('https://api.steampowered.com/ISteamEconomy/GetAssetPrices/v1/?appid=730&key='+apikey, verify=False)
