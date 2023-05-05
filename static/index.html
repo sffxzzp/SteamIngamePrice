@@ -101,8 +101,7 @@
 					tdata['type'] = 'unknown';
 					tdata['description'] = 'unknown';
 				} else {
-					tdata['image'] = items[asset.name].image_url.replace('steamcdn-a.akamaihd.net',
-					'media.st.dl.eccdnx.com');
+					tdata['image'] = items[asset.name].image_url.replace('steamcdn-a.akamaihd.net', 'media.st.dl.eccdnx.com');
 					tdata['name'] = items[asset.name].item_name;
 					tdata['type'] = items[asset.name].item_type_name;
 					tdata['description'] = items[asset.name].item_description;
@@ -249,11 +248,6 @@
 					<tr v-for="item in data">
 						<td>
 							<div class="flex items-center space-x-3">
-								<div class="avatar">
-									<div class="mask mask-squircle w-12 h-12">
-										<img :src="`${item.image}`" alt="" />
-									</div>
-								</div>
 								<div>
 									<div class="font-bold">{{ item.name }}</div>
 									<div class="text-sm opacity-50">{{ item.type }}</div>
@@ -275,12 +269,10 @@
 			<label class="modal-box relative" for="">
 				<label for="modal-detail" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
 				<h3 class="font-bold text-lg">{{ modal.name }}</h3>
-				<img :src="`${modal.image}`" style="width: 68px;" />
 				<p class="py-4">
 					ClassID: {{ modal.classid }}<br>
 					DefIndex: {{ modal.defindex }}<br>
 					日期: {{ modal.date }}<br>
-					类型: {{ modal.type }}<br>
 					描述: {{ modal.description }}<br>
 				</p>
 				<table class="table table-compact w-full">
