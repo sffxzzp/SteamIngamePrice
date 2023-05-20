@@ -21,22 +21,15 @@ func httpGet(url string) ([]byte, bool) {
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	appid := "730"
+	appid := r.URL.Query().Get("appid")
 	apikey := os.Getenv("apikey")
-	mod := r.URL.Query().Get("mod")
 	lang := r.URL.Query().Get("lang")
 	if lang != "zh-CN" {
 		lang = "en-US"
 	}
 	var data []byte
 	var err bool
-	if mod == "price" {
-		data, err = httpGet("https://api.steampowered.com/ISteamEconomy/GetAssetPrices/v1/?language=" + lang + "&appid=" + appid + "&key=" + apikey)
-	} else {
-		w.WriteHeader(400)
-		w.Write([]byte("Invalid mod"))
-		return
-	}
+	data, err = httpGet("https://api.steampowered.com/ISteamEconomy/GetAssetPrices/v1/?language=" + lang + "&appid=" + appid + "&key=" + apikey)
 	if err {
 		w.WriteHeader(500)
 		w.Write([]byte("Network error"))

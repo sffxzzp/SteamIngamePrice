@@ -62,11 +62,11 @@
 		}
 		var init = async function () {
 			if (location.href.indexOf('127.0.0.1') < 0 && location.href.indexOf('localhost') < 0) {
-				var price = await fetch('/api/price/en-US').then(res => res.json()).catch(console.log);
+				var price = await fetch('/api/730/en-US').then(res => res.json()).catch(console.log);
 			} else {
-				var price = await fetch('/api/?mod=price&lang=en-US').then(res => res.json()).catch(console.log);
+				var price = await fetch('/api/?appid=730&lang=en-US').then(res => res.json()).catch(console.log);
 			}
-			var schema = await fetch('/schema_en-US.json').then(res => res.json()).catch(console.log);
+			var schema = await fetch('/csgo/schema_en-US.json').then(res => res.json()).catch(console.log);
 			if (schema == undefined || price == undefined) {
 				document.querySelector('#load-text').innerHTML = 'Data load failed, try to refresh this page.';
 			}
@@ -175,7 +175,8 @@
 	<div class="sticky navbar bg-base-100 bg-primary w-full top-0 z-30 bg-opacity-70 backdrop-blur"
 		style="margin: 0 auto;">
 		<div class="flex-1">
-			<a class="btn btn-ghost normal-case text-xl">CSGO Item Price</a>
+			<a class="btn btn-outline normal-case text-xl">CSGO</a>
+			<a class="btn btn-ghost normal-case text-xl" href="../dota2/en.html">Dota 2</a>
 		</div>
 		<div class="flex-none">
 			<div class="dropdown dropdown-end">
@@ -191,12 +192,12 @@
 				<div class="dropdown-content bg-base-100 text-base-content rounded-t-box rounded-b-box top-px mt-16 w-56 overflow-y-auto shadow-2xl">
 					<ul class="menu menu-compact gap-1 p-3" tabindex="0">
 						<li>
-							<a href="/en.html" onclick="javascript:return false;" class="flex active">
+							<a href="./en.html" onclick="javascript:return false;" class="flex active">
 								<span class="flex flex-1 justify-between">English</span>
 							</a>
 						</li>
 						<li>
-							<a href="/index.html" class="flex">
+							<a href="./cn.html" class="flex">
 								<span class="flex flex-1 justify-between">简体中文</span>
 							</a>
 						</li>
