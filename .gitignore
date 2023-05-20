@@ -1,3 +1,5 @@
 .vscode
+static
+vercel.sh
 build.bat
 oryxBuildBinary
