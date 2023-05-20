@@ -26,9 +26,7 @@ jobs:
         wget https://github.com/SteamDatabase/GameTracking-CSGO/raw/master/csgo/scripts/items/items_game.txt
         wget https://github.com/SteamDatabase/GameTracking-CSGO/raw/master/csgo/resource/csgo_schinese.txt
         wget https://github.com/SteamDatabase/GameTracking-CSGO/raw/master/csgo/resource/csgo_english.txt
-        python schema.py $APIKEY
-        cp ./schema_zh-CN.json ./static/
-        cp ./schema_en-US.json ./static/
+        python csgoschema.py $APIKEY
         cp ./schema_zh-CN.json ./dist/
         cp ./schema_en-US.json ./dist/
         rm ./schema_zh-CN.json
