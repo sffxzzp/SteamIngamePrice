@@ -36,7 +36,11 @@ outputEN = {"result": {"items": []}}
 for item in schema:
 	itemName = languageEN[item["item_name"][1:].lower()] if item["item_name"][1:].lower() in languageEN else item["item_name"]
 	itemDesc = languageEN[item["item_description"][1:].lower()] if item["item_description"][1:].lower() in languageEN else item["item_description"]
-	name = "Unknown item " + item["defindex"] if item["name"] == "#Unknown" else item["name"]
+	if item["name"] == "#Unknown":
+		itemName = "Unknown item " + item["defindex"]
+		name = item["defindex"]
+	else:
+		name = item["name"]
 	tItem =  {
 		"name": name,
 		"defindex": item["defindex"],
@@ -61,7 +65,11 @@ for item in schema:
 		itemDesc = languageEN[item["item_description"][1:].lower()]
 	else:
 		itemDesc = item["item_description"]
-	name = "未知物品 " + item["defindex"] if item["name"] == "#Unknown" else item["name"]
+	if item["name"] == "#Unknown":
+		itemName = "未知物品 " + item["defindex"]
+		name = item["defindex"]
+	else:
+		item["name"]
 	tItem =  {
 		"name": name,
 		"defindex": item["defindex"],
