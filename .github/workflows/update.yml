@@ -31,9 +31,9 @@ jobs:
         cp ./schema_en-US.json ./dist/csgo/
         rm ./schema_zh-CN.json
         rm ./schema_en-US.json
-        rm items_game.txt
-        rm csgo_schinese.txt
-        rm csgo_english.txt
+        rm items_game.json
+        rm csgo_schinese.json
+        rm csgo_english.json
     - name: Processing Dota2
       env:
         APIKEY: ${{ secrets.APIKEY }}
