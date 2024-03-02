@@ -1,16 +1,16 @@
 # -*- coding: UTF-8 -*-
-import sys, os, requests, json, vdf
+import sys, os, requests, json
 
 apikey = sys.argv[1]
 
 defindexes = []
-res = requests.get('https://api.steampowered.com/ISteamEconomy/GetAssetPrices/v1/?appid=730&key='+apikey)
+res = requests.get('https://api.steampowered.com/ISteamEconomy/GetAssetPrices/v1/?appid=730&key='+apikey, verify=False)
 res = json.loads(res.text)
 for d in res["result"]["assets"]:
 	defindexes.append(d["name"])
 
 schema = []
-itemsGame = vdf.load(open('items_game.txt'), mapper=dict)
+itemsGame = json.load(open('items_game.json', encoding='utf-8'))
 items = itemsGame["items_game"]["items"]
 for dindex in defindexes:
 	if dindex == "1203":
@@ -26,7 +26,7 @@ for dindex in defindexes:
 	}
 	schema.append(item)
 
-languageEN = vdf.load(open('csgo_english.txt', encoding='utf8'), mapper=dict)["lang"]["Tokens"]
+languageEN = json.load(open('csgo_english.json', encoding='utf-8'))["lang"]["Tokens"]
 languageEN = dict((k.lower(), v) for k, v in languageEN.items())
 outputEN = {"result": {"items": []}}
 for item in schema:
@@ -41,7 +41,7 @@ for item in schema:
 	}
 	outputEN["result"]["items"].append(tItem)
 
-languageCN = vdf.load(open('csgo_schinese.txt', encoding='utf8'), mapper=dict)["lang"]["Tokens"]
+languageCN = json.load(open('csgo_schinese.json', encoding='utf-8'))["lang"]["Tokens"]
 languageCN = dict((k.lower(), v) for k, v in languageCN.items())
 outputCN = {"result": {"items": []}}
 for item in schema:

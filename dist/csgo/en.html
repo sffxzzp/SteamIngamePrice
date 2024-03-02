@@ -6,9 +6,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>CSGO Item Price</title>
-	<script src="https://cdn.staticfile.org/vue/3.2.33/vue.global.prod.js"></script>
-	<link href="https://unpkg.com/daisyui@2.15.2/dist/full.css" rel="stylesheet" type="text/css" />
-	<link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" type="text/css" />
+	<script src="../statics/vue.global.prod.js"></script>
+	<link href="../statics/full.css" rel="stylesheet" type="text/css" />
+	<link href="../statics/tailwind.min.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -70,7 +70,7 @@
 			if (schema == undefined || price == undefined) {
 				document.querySelector('#load-text').innerHTML = 'Data load failed, try to refresh this page.';
 			}
-			var rate = await fetch('https://api.augmentedsteam.com/v01/rates/?to=USD').then(res => res.json());
+			var rate = await fetch('https://api.exchangerate-api.com/v4/latest/USD').then(res => res.json());
 			var items = {};
 			schema.result.items.forEach(item => {
 				items[item.defindex] = item;
@@ -89,7 +89,7 @@
 						tdata['prices_list'].push({
 							'currency': currency,
 							'original': asset.prices[currency],
-							'transformed': asset.prices[currency] * rate.data[currency].USD
+							'transformed': asset.prices[currency] / rate.rates[currency]
 						});
 					}
 				}

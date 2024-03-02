@@ -23,9 +23,9 @@ jobs:
       env:
         APIKEY: ${{ secrets.APIKEY }}
       run: |
-        wget https://github.com/ByMykel/items_game.txt/raw/main/original/items_game.txt
-        wget https://github.com/ByMykel/items_game.txt/raw/main/original/csgo_schinese.txt
-        wget https://github.com/ByMykel/items_game.txt/raw/main/original/csgo_english.txt
+        wget https://github.com/ByMykel/counter-strike-file-tracker/raw/main/static/items_game.json
+        wget https://github.com/ByMykel/counter-strike-file-tracker/raw/main/static/csgo_schinese.json
+        wget https://github.com/ByMykel/counter-strike-file-tracker/raw/main/static/csgo_english.json
         python csgoschema.py $APIKEY
         cp ./schema_zh-CN.json ./dist/csgo/
         cp ./schema_en-US.json ./dist/csgo/
