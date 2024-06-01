@@ -39,16 +39,14 @@ jobs:
         APIKEY: ${{ secrets.APIKEY }}
       run: |
         wget https://github.com/dotabuff/d2vpkr/raw/master/dota/scripts/items/items_game.txt
-        wget https://github.com/dotabuff/d2vpkr/raw/master/dota/resource/localization/items_schinese.json
-        wget https://github.com/dotabuff/d2vpkr/raw/master/dota/resource/localization/items_english.json
+        wget https://github.com/dotabuff/d2vpkr/raw/master/dota/resource/localization/items_english.txt
         python dota2schema.py $APIKEY
         cp ./schema_zh-CN.json ./dist/dota2/
         cp ./schema_en-US.json ./dist/dota2/
         rm ./schema_zh-CN.json
         rm ./schema_en-US.json
         rm items_game.txt
-        rm items_schinese.json
-        rm items_english.json
+        rm items_english.txt
     - name: Get time
       run: |
         echo "CMsg=Updated: $(date +'%Y-%m-%d %H:%M:%S %z')" >> $GITHUB_ENV
