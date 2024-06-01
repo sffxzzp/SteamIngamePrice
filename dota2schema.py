@@ -30,7 +30,8 @@ for dindex in defindexes:
 	}
 	schema.append(item)
 
-languageEN = json.load(open('items_english.json', encoding='utf8'))["lang"]["Tokens"]
+# languageEN = json.load(open('items_english.json', encoding='utf8'))["lang"]["Tokens"]
+languageEN = vdf.load(open('items_english.txt', encoding='utf8'), mapper=dict)["lang"]["Tokens"]
 languageEN = dict((k.lower(), v) for k, v in languageEN.items())
 outputEN = {"result": {"items": []}}
 for item in schema:
@@ -49,7 +50,7 @@ for item in schema:
 	}
 	outputEN["result"]["items"].append(tItem)
 
-languageCN = json.load(open('items_schinese.json', encoding='utf8'))["lang"]["Tokens"]
+languageCN = vdf.load(open('items_english.txt', encoding='utf8'), mapper=dict)["lang"]["Tokens"]
 languageCN = dict((k.lower(), v) for k, v in languageCN.items())
 outputCN = {"result": {"items": []}}
 for item in schema:
