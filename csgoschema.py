@@ -19,8 +19,8 @@ for dindex in defindexes:
 	item = {
 		"name": items[dindex]["name"],
 		"defindex": dindex,
-		"item_name": items[dindex]["item_name"],
-		"item_description": items[dindex]["item_description"],
+		"item_name": items[dindex]["item_name"] if "item_name" in items[dindex] else items[dindex]["name"],
+		"item_description": items[dindex]["item_description"] if "item_description" in items[dindex] else '',
 		# todo: https://github.com/Step7750/node-csgo-cdn
 		"image_url": "",
 	}
